@@ -24,11 +24,11 @@
             --text-secondary: #cbd5e1; /* slate-300 */
             --accent-primary: #f97316; /* orange-500 */
             --accent-secondary: #fb923c; /* orange-400 */
+            --accent-subtle: rgba(249, 115, 22, 0.1); /* orange-500/10 */
             --border-color: #475569; /* slate-600 */
-            --terminal-bg: #000000;
-            --terminal-border: #f97316; /* orange-500 */
-            --terminal-header: #1e293b; /* slate-800 */
-            --terminal-text: #f8fafc;
+            --terminal-border: #f97316;
+            --terminal-header: #1e293b;
+            --terminal-text-accent: #fb923c;
         }
 
         [data-theme="light"] {
@@ -40,11 +40,11 @@
             --text-secondary: #475569; /* slate-600 */
             --accent-primary: #2563eb; /* blue-600 */
             --accent-secondary: #3b82f6; /* blue-500 */
+            --accent-subtle: rgba(37, 99, 235, 0.1); /* blue-600/10 */
             --border-color: #e2e8f0; /* slate-200 */
-            --terminal-bg: #ffffff;
-            --terminal-border: #2563eb; /* blue-600 */
-            --terminal-header: #f1f5f9; /* slate-100 */
-            --terminal-text: #1e293b;
+            --terminal-border: #2563eb;
+            --terminal-header: #f1f5f9;
+            --terminal-text-accent: #3b82f6;
         }
 
         body {
@@ -71,14 +71,8 @@
         .custom-scrollbar { scrollbar-width: thin; scrollbar-color: var(--text-secondary) var(--bg-secondary); }
         
         /* --- COMPONENTES REUTILIZÁVEIS --- */
-        .section {
-            padding: 5rem 1rem;
-        }
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
+        .section { padding: 5rem 1rem; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
         .btn {
             padding: 0.75rem 1.5rem;
             border-radius: 9999px;
@@ -95,16 +89,18 @@
             background-color: var(--accent-secondary);
             transform: translateY(-2px);
         }
-        
-        /* --- CONTROLES DE TEMA E IDIOMA --- */
-        .controls-container {
-            position: fixed;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 50;
-            display: flex;
-            gap: 0.75rem;
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background-color: var(--accent-subtle);
+            color: var(--accent-secondary);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
         }
+
+        /* --- CONTROLES DE TEMA E IDIOMA --- */
+        .controls-container { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 50; display: flex; gap: 0.75rem; }
         .control-btn {
             background-color: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -115,80 +111,45 @@
             transition: all 0.3s ease;
             color: var(--text-primary);
         }
-        [data-theme="light"] .control-btn {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-color: var(--border-color);
-        }
-        .control-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        [data-theme="light"] .control-btn:hover {
-            background-color: #fff;
-        }
-        .control-btn svg {
-            width: 1.25rem;
-            height: 1.25rem;
-        }
+        [data-theme="light"] .control-btn { background-color: rgba(255, 255, 255, 0.8); border-color: var(--border-color); }
+        .control-btn:hover { background-color: rgba(255, 255, 255, 0.2); }
+        [data-theme="light"] .control-btn:hover { background-color: #fff; }
+        .control-btn svg { width: 1.25rem; height: 1.25rem; }
         #theme-toggle .sun-icon { display: none; }
         #theme-toggle .moon-icon { display: block; }
         [data-theme="light"] #theme-toggle .sun-icon { display: block; }
         [data-theme="light"] #theme-toggle .moon-icon { display: none; }
-        #lang-toggle {
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-            font-weight: 500;
-            font-size: 0.875rem;
-        }
+        #lang-toggle { padding-left: 0.75rem; padding-right: 0.75rem; font-weight: 500; font-size: 0.875rem; }
 
         /* --- MODAL DE EMAIL --- */
         .email-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
             background-color: var(--bg-secondary);
-            padding: 25px 30px;
-            border-radius: 10px;
+            padding: 25px 30px; border-radius: 10px;
             border: 1px solid var(--accent-primary);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
+            z-index: 2000; opacity: 0; visibility: hidden;
             transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
             text-align: center;
         }
-        .email-modal.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-        .email-modal p {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-        }
-        .email-modal .email-address {
-            font-weight: bold;
-            color: var(--text-primary);
-            background: var(--bg-tertiary);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            word-break: break-all;
-        }
-        .email-modal .copy-button {
-            background: var(--accent-primary);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.2s;
-        }
-        .email-modal .copy-button:hover {
-            background: var(--accent-secondary);
-        }
+        .email-modal.visible { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+        .email-modal p { font-size: 1rem; color: var(--text-secondary); margin-bottom: 15px; }
+        .email-modal .email-address { font-weight: bold; color: var(--text-primary); background: var(--bg-tertiary); padding: 10px; border-radius: 5px; margin-bottom: 20px; word-break: break-all; }
+        .email-modal .copy-button { background: var(--accent-primary); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+        .email-modal .copy-button:hover { background: var(--accent-secondary); }
+
+        /* --- TERMINAL --- */
+        .terminal-window { background-color: var(--terminal-bg); border: 1px solid var(--terminal-border); }
+        .terminal-header { background-color: var(--terminal-header); border-bottom: 1px solid var(--terminal-border); }
+        .terminal-code { color: var(--terminal-text); }
+        .terminal-code .token.keyword { color: var(--accent-secondary); }
+        .terminal-code .token.string { color: #a5d6a7; } /* green-200 */
+        [data-theme="light"] .terminal-code .token.string { color: #166534; } /* green-800 */
+        .terminal-code .token.property { color: #93c5fd; } /* blue-300 */
+        [data-theme="light"] .terminal-code .token.property { color: #1e40af; } /* blue-800 */
+        .terminal-code .token.number { color: #f0abfc; } /* fuchsia-300 */
+        [data-theme="light"] .terminal-code .token.number { color: #9d174d; } /* fuchsia-800 */
     </style>
 </head>
 <body>
@@ -243,13 +204,13 @@
                 </div>
                 <!-- Coluna do "Terminal" -->
                 <div class="hidden md:block fade-in-up" style="transition-delay: 500ms;">
-                    <div class="bg-black/80 backdrop-blur-md rounded-lg border border-orange-900/30 shadow-xl overflow-hidden">
-                        <div class="flex items-center px-4 py-2 bg-slate-900/80 border-b border-orange-900/30">
+                    <div class="terminal-window backdrop-blur-md rounded-lg shadow-xl overflow-hidden">
+                        <div class="terminal-header flex items-center px-4 py-2 border-b">
                             <div class="flex space-x-2"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
-                            <div class="ml-4 text-xs font-mono text-orange-300/70">jvbm_profile.js</div>
+                            <div class="ml-4 text-xs font-mono text-opacity-70">jvbm_profile.js</div>
                         </div>
-                        <div class="p-4 h-[420px] overflow-y-auto font-mono text-sm text-orange-100 custom-scrollbar">
-                            <pre><code id="code-block"></code></pre>
+                        <div class="p-4 h-[420px] overflow-y-auto font-mono text-sm custom-scrollbar">
+                            <pre><code id="code-block" class="terminal-code"></code></pre>
                         </div>
                     </div>
                 </div>
@@ -257,22 +218,22 @@
         </section>
 
         <!-- SEÇÃO SOBRE MIM -->
-        <section id="about" class="section bg-slate-900">
+        <section id="about" class="section bg-secondary">
             <div class="container">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-8 text-center fade-in-up" data-lang="aboutTitle">Sobre Mim</h2>
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center fade-in-up" data-lang="aboutTitle">Sobre Mim</h2>
                 <div class="grid md:grid-cols-2 gap-10 items-center">
                     <div class="fade-in-up" style="transition-delay: 100ms;">
                         <div class="relative">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full blur-md opacity-70"></div>
-                            <div class="relative aspect-square max-w-md mx-auto rounded-full overflow-hidden border-4 border-slate-800 shadow-xl">
+                            <div class="absolute -inset-1 bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full blur-md opacity-70"></div>
+                            <div class="relative aspect-square max-w-md mx-auto rounded-full overflow-hidden border-4 border-bg-secondary shadow-xl">
                                 <img src="https://media-gru1-2.cdn.whatsapp.net/v/t61.24694-24/491870746_988976000087285_7182624657755983603_n.jpg?ccb=11-4&oh=01_Q5Aa2QEiGfK6gC3Kqxn4_6mlNEb0WRemHUXzNKI6nnZxuqG-HA&oe=68B102D4&_nc_sid=5e03e0&_nc_cat=109" alt="Foto de perfil de João Victor" class="w-full h-full object-cover"/>
                             </div>
                         </div>
                     </div>
                     <div class="space-y-6 fade-in-up" style="transition-delay: 200ms;">
-                        <div class="inline-block px-3 py-1 bg-orange-900/50 text-orange-400 rounded-full text-sm font-medium" data-lang="aboutTag">Desenvolvedor Iniciante</div>
-                        <h3 class="text-2xl font-bold text-white" data-lang="aboutHeadline">Transformando ideias em experiências digitais.</h3>
-                        <div class="space-y-4 text-slate-300">
+                        <div class="tag" data-lang="aboutTag">Desenvolvedor Iniciante</div>
+                        <h3 class="text-2xl font-bold" data-lang="aboutHeadline">Transformando ideias em experiências digitais.</h3>
+                        <div class="space-y-4 text-text-secondary">
                             <p class="text-lg" data-lang="aboutP1">Olá! Sou um desenvolvedor apaixonado por tecnologia. Como iniciante na área, estou focado em absorver conhecimento e aplicá-lo em projetos práticos. Minha jornada é impulsionada pela curiosidade e pelo desejo de construir soluções elegantes e funcionais.</p>
                             <div>
                                 <p data-lang="aboutP2">Estou cursando Análise e Desenvolvimento de Sistemas na UNICID e, paralelamente, aprimorando minhas habilidades com os cursos da:</p>
@@ -287,9 +248,9 @@
         </section>
 
         <!-- SEÇÃO DE HABILIDADES -->
-        <section id="skills" class="section bg-slate-800/50">
+        <section id="skills" class="section bg-primary">
             <div class="container">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-12 text-center fade-in-up" data-lang="skillsTitle">Minhas Habilidades</h2>
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center fade-in-up" data-lang="skillsTitle">Minhas Habilidades</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                     <!-- Skills serão populadas pelo JS -->
                 </div>
@@ -297,19 +258,19 @@
         </section>
 
         <!-- RODAPÉ -->
-        <footer class="py-10 px-4 md:px-8 bg-slate-800 border-t border-slate-700">
+        <footer class="py-10 px-4 md:px-8 bg-secondary border-t" style="border-color: var(--border-color);">
             <div class="max-w-6xl mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <div class="mb-6 md:mb-0 text-center md:text-left">
-                        <h3 class="text-xl font-bold text-white">João Victor Barros das Merces</h3>
-                        <p class="text-slate-400 mt-1">joaovictor.business2005@gmail.com</p>
+                        <h3 class="text-xl font-bold">João Victor Barros das Merces</h3>
+                        <p class="text-text-secondary mt-1">joaovictor.business2005@gmail.com</p>
                     </div>
                     <div class="flex gap-4">
-                        <a target="_blank" href="https://github.com/Joaovictoreth1" class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:text-orange-500 hover:bg-slate-600 transition-colors" aria-label="Github"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></a>
-                        <a target="_blank" href="https://www.linkedin.com/in/joão-victor-68847733b" class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-slate-300 hover:text-orange-500 hover:bg-slate-600 transition-colors" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
+                        <a target="_blank" href="https://github.com/Joaovictoreth1" class="w-10 h-10 bg-tertiary rounded-full flex items-center justify-center text-text-secondary hover:text-accent-primary hover:bg-slate-600 transition-colors" aria-label="Github"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></a>
+                        <a target="_blank" href="https://www.linkedin.com/in/joão-victor-68847733b" class="w-10 h-10 bg-tertiary rounded-full flex items-center justify-center text-text-secondary hover:text-accent-primary hover:bg-slate-600 transition-colors" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
                     </div>
                 </div>
-                <div class="border-t border-slate-700 mt-8 pt-8 text-center text-slate-500 text-sm">
+                <div class="border-t border-border-color mt-8 pt-8 text-center text-text-secondary text-sm">
                     <p data-lang="footerRights">© 2025 João Victor Barros das Merces. Todos os direitos reservados.</p>
                 </div>
             </div>
@@ -333,7 +294,6 @@
                     heroEducation: "Estudante de Análise e Desenvolvimento de Sistemas na UNICID",
                     heroFocus: "Foco em Programação e Inteligência Artificial",
                     heroCourses: "Cursos complementares de desenvolvimento na Alura",
-                    heroBtnAbout: "Sobre Mim",
                     heroBtnGithub: "Meu GitHub",
                     aboutTitle: "Sobre Mim",
                     aboutTag: "Desenvolvedor Iniciante",
@@ -349,7 +309,6 @@
                     heroEducation: "Student of Analysis and Systems Development at UNICID",
                     heroFocus: "Focus on Programming and Artificial Intelligence",
                     heroCourses: "Complementary development courses at Alura",
-                    heroBtnAbout: "About Me",
                     heroBtnGithub: "My GitHub",
                     aboutTitle: "About Me",
                     aboutTag: "Junior Developer",
@@ -400,12 +359,12 @@
                 skillsContainer.innerHTML = '';
                 skills.forEach((skill, index) => {
                     const skillElement = document.createElement('div');
-                    skillElement.className = 'bg-slate-800/80 backdrop-blur-sm rounded-xl p-6 border border-orange-900/30 hover:border-orange-700 transition-all cursor-pointer fade-in-up';
+                    skillElement.className = 'bg-secondary backdrop-blur-sm rounded-xl p-6 border border-border-color hover:border-accent-secondary transition-all cursor-pointer fade-in-up';
                     skillElement.style.transitionDelay = `${index * 100}ms`;
                     skillElement.innerHTML = `
                         <div class="flex flex-col items-center text-center h-full">
                             <img src="${skill.icon}" alt="${skill.name} Logo" class="h-16 mb-4">
-                            <h3 class="font-bold text-white mb-1">${skill.name}</h3>
+                            <h3 class="font-bold text-text-primary mb-1">${skill.name}</h3>
                         </div>
                     `;
                     skillsContainer.appendChild(skillElement);
@@ -442,23 +401,23 @@
             // Animação de "digitação" no terminal
             const codeBlock = document.getElementById('code-block');
             const codeLines = [
-                '<span class="text-orange-400">const</span> joaoVictor = {',
-                '  <span class="text-blue-300">nome</span>: <span class="text-green-300">"João Victor B. das Merces"</span>,',
-                '  <span class="text-blue-300">idade</span>: <span class="text-purple-300">19</span>,',
-                '  <span class="text-blue-300">status</span>: <span class="text-green-300">"Estudante de ADS na UNICID"</span>,',
-                '  <span class="text-blue-300">foco</span>: [<span class="text-green-300">"Programação"</span>, <span class="text-green-300">"Inteligência Artificial"</span>],',
-                '  <span class="text-blue-300">objetivo</span>: <span class="text-green-300">"Me dedicar em criar, programar e estudar"</span>,',
-                '  <span class="text-blue-300">habilidades</span>: [',
-                '    <span class="text-green-300">"JavaScript"</span>,',
-                '    <span class="text-green-300">"Python"</span>,',
-                '    <span class="text-green-300">"C#"</span>,',
-                '    <span class="text-green-300">"HTML"</span>,',
-                '    <span class="text-green-300">"Java"</span>',
+                '<span class="token keyword">const</span> joaoVictor = {',
+                '  <span class="token property">nome</span>: <span class="token string">"João Victor B. das Merces"</span>,',
+                '  <span class="token property">idade</span>: <span class="token number">19</span>,',
+                '  <span class="token property">status</span>: <span class="token string">"Estudante de ADS na UNICID"</span>,',
+                '  <span class="token property">foco</span>: [<span class="token string">"Programação"</span>, <span class="token string">"Inteligência Artificial"</span>],',
+                '  <span class="token property">objetivo</span>: <span class="token string">"Me dedicar em criar, programar e estudar"</span>,',
+                '  <span class="token property">habilidades</span>: [',
+                '    <span class="token string">"JavaScript"</span>,',
+                '    <span class="token string">"Python"</span>,',
+                '    <span class="token string">"C#"</span>,',
+                '    <span class="token string">"HTML"</span>,',
+                '    <span class="token string">"Java"</span>',
                 '  ],',
-                '  <span class="text-blue-300">contato</span>: {',
-                '    <span class="text-blue-300">email</span>: <span class="text-green-300">"joaovictor.business2005@gmail.com"</span>,',
-                '    <span class="text-blue-300">linkedin</span>: <span class="text-green-300">"in/joão-victor-68847733b"</span>,',
-                '    <span class="text-blue-300">github</span>: <span class="text-green-300">"Joaovictoreth1"</span>',
+                '  <span class="token property">contato</span>: {',
+                '    <span class="token property">email</span>: <span class="token string">"joaovictor.business2005@gmail.com"</span>,',
+                '    <span class="token property">linkedin</span>: <span class="token string">"in/joão-victor-68847733b"</span>,',
+                '    <span class="token property">github</span>: <span class="token string">"Joaovictoreth1"</span>',
                 '  }',
                 '};'
             ];
@@ -475,7 +434,7 @@
                 const line = codeLines[lineIndex];
                 if (charIndex < line.length) {
                     currentLineHTML += line[charIndex];
-                    codeBlock.innerHTML = codeLines.slice(0, lineIndex).join('<br>') + (lineIndex > 0 ? '<br>' : '') + currentLineHTML + '<span class="text-orange-300 animate-pulse">|</span>';
+                    codeBlock.innerHTML = codeLines.slice(0, lineIndex).join('<br>') + (lineIndex > 0 ? '<br>' : '') + currentLineHTML + '<span class="animate-pulse" style="color: var(--terminal-text-accent);">|</span>';
                     charIndex++;
                     setTimeout(typeCode, 15);
                 } else {
