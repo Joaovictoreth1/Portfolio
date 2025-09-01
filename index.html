@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio de João Victor Barros das Merces</title>
     
-    <!-- Tailwind CSS para o design -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Fonte Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -154,7 +152,6 @@
 </head>
 <body>
 
-    <!-- CONTROLES DE TEMA E IDIOMA -->
     <div class="controls-container">
         <button id="theme-toggle" class="control-btn" aria-label="Toggle theme">
             <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
@@ -164,13 +161,11 @@
     </div>
 
     <main>
-        <!-- SEÇÃO HERO -->
         <section class="relative h-screen flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image:url(https://media-gru1-2.cdn.whatsapp.net/v/t61.24694-24/491870746_988976000087285_7182624657755983603_n.jpg?ccb=11-4&oh=01_Q5Aa2QEiGfK6gC3Kqxn4_6mlNEb0WRemHUXzNKI6nnZxuqG-HA&oe=68B102D4&_nc_sid=5e03e0&_nc_cat=109); filter:blur(8px) brightness(0.5)"></div>
+            <div class="absolute inset-0 z-0" style="background-image:url(https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWFlM2w5YWJjdm5hbTFkZXo4NGVvcjIzN3lqa2U1cnp3b2d2dXk4NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tn33aiTi1jkl6H6/giphy.gif); background-size: cover; background-position: center; filter: blur(8px) brightness(0.5); transform: scale(1.05);"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-black/80 backdrop-blur-sm z-10"></div>
             
             <div class="relative z-20 w-full max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
-                <!-- Coluna de Texto -->
                 <div class="text-left">
                     <div class="mb-6 inline-block fade-in-up">
                         <div class="text-sm tracking-widest text-orange-200 uppercase font-medium mb-2" data-lang="heroWelcome">Bem-vindo ao meu portfólio</div>
@@ -202,7 +197,6 @@
                         <button id="emailButton" class="btn btn-primary">Email</button>
                     </div>
                 </div>
-                <!-- Coluna do "Terminal" -->
                 <div class="hidden md:block fade-in-up" style="transition-delay: 500ms;">
                     <div class="terminal-window backdrop-blur-md rounded-lg shadow-xl overflow-hidden">
                         <div class="terminal-header flex items-center px-4 py-2 border-b">
@@ -217,7 +211,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO SOBRE MIM -->
         <section id="about" class="section bg-secondary">
             <div class="container">
                 <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center fade-in-up" data-lang="aboutTitle">Sobre Mim</h2>
@@ -226,7 +219,7 @@
                         <div class="relative">
                             <div class="absolute -inset-1 bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full blur-md opacity-70"></div>
                             <div class="relative aspect-square max-w-md mx-auto rounded-full overflow-hidden border-4 border-bg-secondary shadow-xl">
-                                <img src="https://media-gru1-2.cdn.whatsapp.net/v/t61.24694-24/491870746_988976000087285_7182624657755983603_n.jpg?ccb=11-4&oh=01_Q5Aa2QEiGfK6gC3Kqxn4_6mlNEb0WRemHUXzNKI6nnZxuqG-HA&oe=68B102D4&_nc_sid=5e03e0&_nc_cat=109" alt="Foto de perfil de João Victor" class="w-full h-full object-cover"/>
+                                <img src="https://avatars.githubusercontent.com/u/205098315?v=4" alt="Foto de perfil de João Victor" class="w-full h-full object-cover"/>
                             </div>
                         </div>
                     </div>
@@ -247,17 +240,14 @@
             </div>
         </section>
 
-        <!-- SEÇÃO DE HABILIDADES -->
         <section id="skills" class="section bg-primary">
             <div class="container">
                 <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center fade-in-up" data-lang="skillsTitle">Minhas Habilidades</h2>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                    <!-- Skills serão populadas pelo JS -->
-                </div>
+                    </div>
             </div>
         </section>
 
-        <!-- RODAPÉ -->
         <footer class="py-10 px-4 md:px-8 bg-secondary border-t" style="border-color: var(--border-color);">
             <div class="max-w-6xl mx-auto">
                 <div class="flex flex-col md:flex-row justify-between items-center">
@@ -277,7 +267,6 @@
         </footer>
     </main>
 
-    <!-- MODAL DE EMAIL -->
     <div id="emailModal" class="email-modal">
         <p>Meu endereço de email:</p>
         <div id="emailAddress" class="email-address">joaovictor.business2005@gmail.com</div>
@@ -402,23 +391,23 @@
             const codeBlock = document.getElementById('code-block');
             const codeLines = [
                 '<span class="token keyword">const</span> joaoVictor = {',
-                '  <span class="token property">nome</span>: <span class="token string">"João Victor B. das Merces"</span>,',
-                '  <span class="token property">idade</span>: <span class="token number">19</span>,',
-                '  <span class="token property">status</span>: <span class="token string">"Estudante de ADS na UNICID"</span>,',
-                '  <span class="token property">foco</span>: [<span class="token string">"Programação"</span>, <span class="token string">"Inteligência Artificial"</span>],',
-                '  <span class="token property">objetivo</span>: <span class="token string">"Me dedicar em criar, programar e estudar"</span>,',
-                '  <span class="token property">habilidades</span>: [',
-                '    <span class="token string">"JavaScript"</span>,',
-                '    <span class="token string">"Python"</span>,',
-                '    <span class="token string">"C#"</span>,',
-                '    <span class="token string">"HTML"</span>,',
-                '    <span class="token string">"Java"</span>',
-                '  ],',
-                '  <span class="token property">contato</span>: {',
-                '    <span class="token property">email</span>: <span class="token string">"joaovictor.business2005@gmail.com"</span>,',
-                '    <span class="token property">linkedin</span>: <span class="token string">"in/joão-victor-68847733b"</span>,',
-                '    <span class="token property">github</span>: <span class="token string">"Joaovictoreth1"</span>',
-                '  }',
+                '   <span class="token property">nome</span>: <span class="token string">"João Victor B. das Merces"</span>,',
+                '   <span class="token property">idade</span>: <span class="token number">19</span>,',
+                '   <span class="token property">status</span>: <span class="token string">"Estudante de ADS na UNICID"</span>,',
+                '   <span class="token property">foco</span>: [<span class="token string">"Programação"</span>, <span class="token string">"Inteligência Artificial"</span>],',
+                '   <span class="token property">objetivo</span>: <span class="token string">"Me dedicar em criar, programar e estudar"</span>,',
+                '   <span class="token property">habilidades</span>: [',
+                '     <span class="token string">"JavaScript"</span>,',
+                '     <span class="token string">"Python"</span>,',
+                '     <span class="token string">"C#"</span>,',
+                '     <span class="token string">"HTML"</span>,',
+                '     <span class="token string">"Java"</span>',
+                '   ],',
+                '   <span class="token property">contato</span>: {',
+                '     <span class="token property">email</span>: <span class="token string">"joaovictor.business2005@gmail.com"</span>,',
+                '     <span class="token property">linkedin</span>: <span class="token string">"in/joão-victor-68847733b"</span>,',
+                '     <span class="token property">github</span>: <span class="token string">"Joaovictoreth1"</span>',
+                '   }',
                 '};'
             ];
 
@@ -480,4 +469,3 @@
 
 </body>
 </html>
-
