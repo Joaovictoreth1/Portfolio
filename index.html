@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfólio de João Victor Barros das Merces</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -322,20 +322,35 @@
             const langToggle = document.getElementById('lang-toggle');
             const skillsContainer = document.querySelector('#skills .grid');
             
-            let currentLang = localStorage.getItem('language') || 'pt';
-            let currentTheme = localStorage.getItem('theme') || 'dark';
+            function preference(key, options) {
+                try {
+                    const saved = localStorage.getItem(key);
+                    if (options.includes(saved)) return saved;
+                } catch {}
+                return options[0];
+            }
+
+            function savePreference(key, value) {
+                try { localStorage.setItem(key, value); } catch {}
+            }
+
+            let currentLang = preference('language', ['pt', 'en']);
+            let currentTheme = preference('theme', ['dark', 'light']);
 
             function applyTheme(theme) {
                 document.documentElement.setAttribute('data-theme', theme);
                 currentTheme = theme;
-                localStorage.setItem('theme', theme);
+                savePreference('theme', theme);
+                themeToggle.setAttribute('aria-pressed', String(theme === 'light'));
             }
 
             function applyLanguage(lang) {
                 document.documentElement.lang = lang;
                 currentLang = lang;
                 langToggle.textContent = lang.toUpperCase();
-                localStorage.setItem('language', lang);
+                savePreference('language', lang);
+                themeToggle.setAttribute('aria-label', lang === 'pt' ? 'Alternar tema claro' : 'Toggle light theme');
+                langToggle.setAttribute('aria-label', lang === 'pt' ? 'Switch to English' : 'Mudar para português');
                 document.querySelectorAll('[data-lang]').forEach(el => {
                     const key = el.getAttribute('data-lang');
                     if (translations[lang][key]) {
