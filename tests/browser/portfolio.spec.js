@@ -21,6 +21,30 @@ test('persists theme and language across reloads', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
 });
 
+test('translates the profile code panel in both directions', async ({
+  page,
+}) => {
+  await page.goto('/');
+  const profile = page.locator('.terminal-code');
+  await expect(profile).toContainText('status: "Estudante de ADS na UNICID"');
+  await page.getByRole('button', { name: 'Mudar para inglês' }).click();
+  await expect(profile).toContainText(
+    'status: "Systems Analysis and Development student at UNICID"',
+  );
+  await expect(profile).toContainText(
+    'focus: ["Programming", "Artificial Intelligence"]',
+  );
+  await expect(profile).toContainText('goal: "Build, code, and keep learning"');
+  await page.getByRole('button', { name: 'Switch to Portuguese' }).click();
+  await expect(profile).toContainText('status: "Estudante de ADS na UNICID"');
+  await expect(profile).toContainText(
+    'foco: ["Programação", "Inteligência Artificial"]',
+  );
+  await expect(profile).toContainText(
+    'objetivo: "Me dedicar em criar, programar e estudar"',
+  );
+});
+
 test('renders when storage throws', async ({ page }) => {
   await page.addInitScript(() => {
     Object.defineProperty(window, 'localStorage', {
