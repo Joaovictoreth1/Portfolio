@@ -54,7 +54,7 @@
         }
 
         /* --- ANIMAÇÕES E SCROLLBAR --- */
-        .fade-in-up {
+        .animate-content .fade-in-up:not(.visible):not(:focus-within) {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -141,6 +141,27 @@
         .terminal-window { background-color: var(--terminal-bg); border: 1px solid var(--terminal-border); }
         .terminal-header { background-color: var(--terminal-header); border-bottom: 1px solid var(--terminal-border); }
         .terminal-code { color: var(--terminal-text); }
+        .terminal-replay {
+            margin-left: auto;
+            min-height: 2.75rem;
+            padding: .35rem .6rem;
+            border: 1px solid var(--terminal-border);
+            border-radius: .4rem;
+            color: var(--terminal-text);
+        }
+        .terminal-replay:focus-visible, #code-scroll:focus-visible {
+            outline: 2px solid var(--accent-secondary);
+            outline-offset: 2px;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .animate-content .fade-in-up:not(.visible):not(:focus-within) {
+                opacity: 1;
+                transform: none;
+            }
+            .terminal-replay {
+                display: none;
+            }
+        }
         .terminal-code .token.keyword { color: var(--accent-secondary); }
         .terminal-code .token.string { color: #a5d6a7; } /* green-200 */
         [data-theme="light"] .terminal-code .token.string { color: #166534; } /* green-800 */
@@ -202,9 +223,11 @@
                         <div class="terminal-header flex items-center px-4 py-2 border-b">
                             <div class="flex space-x-2"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
                             <div class="ml-4 text-xs font-mono text-opacity-70">jvbm_profile.js</div>
+                            <button type="button" id="terminal-replay" class="terminal-replay" hidden>Repetir animação</button>
                         </div>
-                        <div class="p-4 h-[420px] overflow-y-auto font-mono text-sm custom-scrollbar">
+                        <div id="code-scroll" role="region" aria-label="Perfil em código" tabindex="0" class="p-4 h-[420px] overflow-auto font-mono text-sm custom-scrollbar">
                             <pre><code id="code-block" class="terminal-code"></code></pre>
+                            <pre id="terminal-preview" aria-hidden="true" hidden><code class="terminal-code"></code></pre>
                         </div>
                     </div>
                 </div>
@@ -273,7 +296,9 @@
         <button id="copyButton" class="copy-button">Copiar</button>
     </div>
 
-    <script>
+    <script type="module">
+        import { bindTerminalReplay } from './terminal-replay.mjs';
+
         document.addEventListener("DOMContentLoaded", function() {
             // --- DADOS DE TRADUÇÃO E HABILIDADES ---
             const translations = {
@@ -391,19 +416,21 @@
                 applyLanguage(newLang);
             });
 
-            // Animação de entrada ao rolar
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+            const motion = matchMedia('(prefers-reduced-motion: reduce)');
+            if (!motion.matches && 'IntersectionObserver' in window) {
+                document.body.classList.add('animate-content');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+            }
 
             // Animação de "digitação" no terminal
-            const codeBlock = document.getElementById('code-block');
             const codeLines = [
                 '<span class="token keyword">const</span> joaoVictor = {',
                 '   <span class="token property">nome</span>: <span class="token string">"João Victor B. das Merces"</span>,',
@@ -426,30 +453,9 @@
                 '};'
             ];
 
-            let lineIndex = 0;
-            let charIndex = 0;
-            let currentLineHTML = '';
-
-            function typeCode() {
-                if (lineIndex >= codeLines.length) {
-                    codeBlock.innerHTML = codeLines.join('<br>');
-                    return;
-                }
-                const line = codeLines[lineIndex];
-                if (charIndex < line.length) {
-                    currentLineHTML += line[charIndex];
-                    codeBlock.innerHTML = codeLines.slice(0, lineIndex).join('<br>') + (lineIndex > 0 ? '<br>' : '') + currentLineHTML + '<span class="animate-pulse" style="color: var(--terminal-text-accent);">|</span>';
-                    charIndex++;
-                    setTimeout(typeCode, 15);
-                } else {
-                    currentLineHTML = '';
-                    charIndex = 0;
-                    lineIndex++;
-                    setTimeout(typeCode, 50);
-                }
-            }
-            
-            setTimeout(typeCode, 1500);
+            const updateTerminalLanguage = bindTerminalReplay(document, motion, codeLines);
+            updateTerminalLanguage(currentLang);
+            langToggle.addEventListener('click', () => updateTerminalLanguage(currentLang));
 
             // Lógica do Modal de Email
             const emailButton = document.getElementById('emailButton');
