@@ -1,0 +1,19 @@
+exclude:
+  - .github
+  - .gitignore
+  - .nvmrc
+  - .prettierignore
+  - .prettierrc.json
+  - eslint.config.js
+  - Makefile
+  - node_modules
+  - package-lock.json
+  - package.json
+  - playwright.config.js
+  - README.md
+  - scripts
+  - src/styles.css
+  - tailwind.config.js
+  - tests
+  - tsconfig.json
+  - vitest.config.js

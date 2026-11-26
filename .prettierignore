@@ -1,0 +1,7 @@
+assets/site.css
+assets/fonts/OFL.txt
+node_modules/
+coverage/
+playwright-report/
+test-results/
+.lighthouse/

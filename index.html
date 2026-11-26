@@ -1,471 +1,537 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfólio de João Victor Barros das Merces, desenvolvedor de software com foco em programação e inteligência artificial."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Portfólio de João Victor Barros das Merces"
+    />
+    <meta
+      property="og:description"
+      content="Desenvolvedor de software com foco em programação e inteligência artificial."
+    />
+    <meta
+      property="og:url"
+      content="https://joaovictoreth1.github.io/Portfolio/"
+    />
+    <meta
+      property="og:image"
+      content="https://joaovictoreth1.github.io/Portfolio/assets/images/avatar.webp"
+    />
     <title>Portfólio de João Victor Barros das Merces</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
-
-    <style>
-        /* --- ESTILOS GERAIS E VARIÁVEIS DE TEMA --- */
-        :root {
-            /* Tema Escuro (Padrão) */
-            --bg-primary: #0f172a; /* slate-900 */
-            --bg-secondary: #1e293b; /* slate-800 */
-            --bg-tertiary: #334155; /* slate-700 */
-            --text-primary: #f8fafc; /* slate-50 */
-            --text-secondary: #cbd5e1; /* slate-300 */
-            --accent-primary: #f97316; /* orange-500 */
-            --accent-secondary: #fb923c; /* orange-400 */
-            --accent-subtle: rgba(249, 115, 22, 0.1); /* orange-500/10 */
-            --border-color: #475569; /* slate-600 */
-            --terminal-border: #f97316;
-            --terminal-header: #1e293b;
-            --terminal-text-accent: #fb923c;
-        }
-
-        [data-theme="light"] {
-            /* Tema Claro Aprimorado */
-            --bg-primary: #f1f5f9; /* slate-100 */
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #e2e8f0; /* slate-200 */
-            --text-primary: #1e293b; /* slate-800 */
-            --text-secondary: #475569; /* slate-600 */
-            --accent-primary: #2563eb; /* blue-600 */
-            --accent-secondary: #3b82f6; /* blue-500 */
-            --accent-subtle: rgba(37, 99, 235, 0.1); /* blue-600/10 */
-            --border-color: #e2e8f0; /* slate-200 */
-            --terminal-border: #2563eb;
-            --terminal-header: #f1f5f9;
-            --terminal-text-accent: #3b82f6;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
-            overflow-x: hidden;
-        }
-
-        /* --- ANIMAÇÕES E SCROLLBAR --- */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: var(--bg-secondary); }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--text-secondary); border-radius: 4px; }
-        .custom-scrollbar { scrollbar-width: thin; scrollbar-color: var(--text-secondary) var(--bg-secondary); }
-        
-        /* --- COMPONENTES REUTILIZÁVEIS --- */
-        .section { padding: 5rem 1rem; }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        .btn-primary {
-            background-color: var(--accent-primary);
-            color: #ffffff;
-            box-shadow: 0 4px 14px 0 rgba(0,0,0, 0.2);
-        }
-        .btn-primary:hover {
-            background-color: var(--accent-secondary);
-            transform: translateY(-2px);
-        }
-        .tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background-color: var(--accent-subtle);
-            color: var(--accent-secondary);
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        /* --- CONTROLES DE TEMA E IDIOMA --- */
-        .controls-container { position: fixed; top: 1.5rem; right: 1.5rem; z-index: 50; display: flex; gap: 0.75rem; }
-        .control-btn {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 9999px;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--text-primary);
-        }
-        [data-theme="light"] .control-btn { background-color: rgba(255, 255, 255, 0.8); border-color: var(--border-color); }
-        .control-btn:hover { background-color: rgba(255, 255, 255, 0.2); }
-        [data-theme="light"] .control-btn:hover { background-color: #fff; }
-        .control-btn svg { width: 1.25rem; height: 1.25rem; }
-        #theme-toggle .sun-icon { display: none; }
-        #theme-toggle .moon-icon { display: block; }
-        [data-theme="light"] #theme-toggle .sun-icon { display: block; }
-        [data-theme="light"] #theme-toggle .moon-icon { display: none; }
-        #lang-toggle { padding-left: 0.75rem; padding-right: 0.75rem; font-weight: 500; font-size: 0.875rem; }
-
-        /* --- MODAL DE EMAIL --- */
-        .email-modal {
-            position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            background-color: var(--bg-secondary);
-            padding: 25px 30px; border-radius: 10px;
-            border: 1px solid var(--accent-primary);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 2000; opacity: 0; visibility: hidden;
-            transition: opacity 0.3s, transform 0.3s, visibility 0.3s;
-            text-align: center;
-        }
-        .email-modal.visible { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-        .email-modal p { font-size: 1rem; color: var(--text-secondary); margin-bottom: 15px; }
-        .email-modal .email-address { font-weight: bold; color: var(--text-primary); background: var(--bg-tertiary); padding: 10px; border-radius: 5px; margin-bottom: 20px; word-break: break-all; }
-        .email-modal .copy-button { background: var(--accent-primary); color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
-        .email-modal .copy-button:hover { background: var(--accent-secondary); }
-
-        /* --- TERMINAL --- */
-        .terminal-window { background-color: var(--terminal-bg); border: 1px solid var(--terminal-border); }
-        .terminal-header { background-color: var(--terminal-header); border-bottom: 1px solid var(--terminal-border); }
-        .terminal-code { color: var(--terminal-text); }
-        .terminal-code .token.keyword { color: var(--accent-secondary); }
-        .terminal-code .token.string { color: #a5d6a7; } /* green-200 */
-        [data-theme="light"] .terminal-code .token.string { color: #166534; } /* green-800 */
-        .terminal-code .token.property { color: #93c5fd; } /* blue-300 */
-        [data-theme="light"] .terminal-code .token.property { color: #1e40af; } /* blue-800 */
-        .terminal-code .token.number { color: #f0abfc; } /* fuchsia-300 */
-        [data-theme="light"] .terminal-code .token.number { color: #9d174d; } /* fuchsia-800 */
-    </style>
-</head>
-<body>
-
-    <div class="controls-container">
-        <button id="theme-toggle" class="control-btn" aria-label="Toggle theme">
-            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
-            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
-        </button>
-        <button id="lang-toggle" class="control-btn" aria-label="Change language">PT</button>
+    <link rel="canonical" href="https://joaovictoreth1.github.io/Portfolio/" />
+    <link rel="icon" href="./assets/images/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href="./assets/fonts/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="./assets/site.css" />
+  </head>
+  <body>
+    <div class="controls-container" id="preferences" hidden>
+      <button
+        id="theme-toggle"
+        type="button"
+        class="control-btn"
+        aria-label="Alternar tema claro"
+        aria-pressed="false"
+        data-label="themeToggle"
+      >
+        <svg
+          class="sun-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2"></path>
+          <path d="M12 20v2"></path>
+          <path d="m4.93 4.93 1.41 1.41"></path>
+          <path d="m17.66 17.66 1.41 1.41"></path>
+          <path d="M2 12h2"></path>
+          <path d="M20 12h2"></path>
+          <path d="m6.34 17.66-1.41 1.41"></path>
+          <path d="m19.07 4.93-1.41 1.41"></path>
+        </svg>
+        <svg
+          class="moon-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+        </svg>
+      </button>
+      <button
+        id="lang-toggle"
+        type="button"
+        class="control-btn"
+        aria-label="PT — Mudar para inglês"
+      >
+        PT
+      </button>
     </div>
 
     <main>
-        <section class="relative h-screen flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 z-0" style="background-image:url(https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZWFlM2w5YWJjdm5hbTFkZXo4NGVvcjIzN3lqa2U1cnp3b2d2dXk4NyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tn33aiTi1jkl6H6/giphy.gif); background-size: cover; background-position: center; filter: blur(8px) brightness(0.5); transform: scale(1.05);"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-black/80 backdrop-blur-sm z-10"></div>
-            
-            <div class="relative z-20 w-full max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
-                <div class="text-left">
-                    <div class="mb-6 inline-block fade-in-up">
-                        <div class="text-sm tracking-widest text-orange-200 uppercase font-medium mb-2" data-lang="heroWelcome">Bem-vindo ao meu portfólio</div>
-                        <div class="h-0.5 w-20 bg-gradient-to-r from-orange-500 to-orange-300"></div>
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight fade-in-up" style="transition-delay: 100ms;">João Victor Barros das Merces</h1>
-                    <div class="mb-8 fade-in-up" style="transition-delay: 200ms;">
-                        <h2 class="text-xl md:text-2xl text-orange-100 font-light">
-                            <span class="text-orange-400">&lt;</span> <span data-lang="heroTitle">Desenvolvedor de Software</span> <span class="text-orange-400">/&gt;</span>
-                        </h2>
-                    </div>
-                    <div class="space-y-3 mb-8 fade-in-up" style="transition-delay: 300ms;">
-                        <div class="flex items-center text-orange-100">
-                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path><rect width="20" height="14" x="2" y="6" rx="2"></rect></svg></div>
-                            <p class="text-sm md:text-base" data-lang="heroEducation">Estudante de Análise e Desenvolvimento de Sistemas na UNICID</p>
-                        </div>
-                        <div class="flex items-center text-orange-100">
-                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m9 12 2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg></div>
-                            <p class="text-sm md:text-base" data-lang="heroFocus">Foco em Programação e Inteligência Artificial</p>
-                        </div>
-                        <div class="flex items-center text-orange-100">
-                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center mr-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path><circle cx="12" cy="8" r="6"></circle></svg></div>
-                            <p class="text-sm md:text-base" data-lang="heroCourses">Cursos complementares de desenvolvimento na Alura</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-4 fade-in-up" style="transition-delay: 400ms;">
-                        <a href="https://github.com/Joaovictoreth1" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><span data-lang="heroBtnGithub">Meu GitHub</span></a>
-                        <a href="https://www.linkedin.com/in/joão-victor-68847733b" target="_blank" rel="noopener noreferrer" class="btn btn-primary">LinkedIn</a>
-                        <button id="emailButton" class="btn btn-primary">Email</button>
-                    </div>
-                </div>
-                <div class="hidden md:block fade-in-up" style="transition-delay: 500ms;">
-                    <div class="terminal-window backdrop-blur-md rounded-lg shadow-xl overflow-hidden">
-                        <div class="terminal-header flex items-center px-4 py-2 border-b">
-                            <div class="flex space-x-2"><div class="w-3 h-3 rounded-full bg-red-500"></div><div class="w-3 h-3 rounded-full bg-yellow-500"></div><div class="w-3 h-3 rounded-full bg-green-500"></div></div>
-                            <div class="ml-4 text-xs font-mono text-opacity-70">jvbm_profile.js</div>
-                        </div>
-                        <div class="p-4 h-[420px] overflow-y-auto font-mono text-sm custom-scrollbar">
-                            <pre><code id="code-block" class="terminal-code"></code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <section
+        class="hero relative flex items-center justify-center overflow-hidden"
+      >
+        <div
+          class="hero-background absolute inset-0 z-0"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-black/80 backdrop-blur-sm z-10"
+        ></div>
 
-        <section id="about" class="section bg-secondary">
-            <div class="container">
-                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center fade-in-up" data-lang="aboutTitle">Sobre Mim</h2>
-                <div class="grid md:grid-cols-2 gap-10 items-center">
-                    <div class="fade-in-up" style="transition-delay: 100ms;">
-                        <div class="relative">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full blur-md opacity-70"></div>
-                            <div class="relative aspect-square max-w-md mx-auto rounded-full overflow-hidden border-4 border-bg-secondary shadow-xl">
-                                <img src="https://avatars.githubusercontent.com/u/205098315?v=4" alt="Foto de perfil de João Victor" class="w-full h-full object-cover"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-6 fade-in-up" style="transition-delay: 200ms;">
-                        <div class="tag" data-lang="aboutTag">Desenvolvedor Iniciante</div>
-                        <h3 class="text-2xl font-bold" data-lang="aboutHeadline">Transformando ideias em experiências digitais.</h3>
-                        <div class="space-y-4 text-text-secondary">
-                            <p class="text-lg" data-lang="aboutP1">Olá! Sou um desenvolvedor apaixonado por tecnologia. Como iniciante na área, estou focado em absorver conhecimento e aplicá-lo em projetos práticos. Minha jornada é impulsionada pela curiosidade e pelo desejo de construir soluções elegantes e funcionais.</p>
-                            <div>
-                                <p data-lang="aboutP2">Estou cursando Análise e Desenvolvimento de Sistemas na UNICID e, paralelamente, aprimorando minhas habilidades com os cursos da:</p>
-                                <a href="https://www.alura.com.br/" target="_blank" rel="noopener noreferrer" class="inline-block mt-3">
-                                    <img src="https://www.alura.com.br/assets/img/alura-logo.svg" alt="Alura Logo" class="alura-logo h-8">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div
+          class="relative z-20 w-full max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center"
+        >
+          <div class="text-left">
+            <div class="mb-6 inline-block fade-in-up">
+              <div
+                class="text-sm tracking-widest text-orange-200 uppercase font-medium mb-2"
+                data-lang="heroWelcome"
+              >
+                Bem-vindo ao meu portfólio
+              </div>
+              <div
+                class="h-0.5 w-20 bg-gradient-to-r from-orange-500 to-orange-300"
+              ></div>
             </div>
-        </section>
+            <h1
+              class="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tight fade-in-up"
+              data-reveal-delay="100"
+            >
+              João Victor Barros das Merces
+            </h1>
+            <div class="mb-8 fade-in-up" data-reveal-delay="200">
+              <h2 class="text-xl md:text-2xl text-orange-100 font-light">
+                <span class="text-orange-400">&lt;</span>
+                <span data-lang="heroTitle">Desenvolvedor de Software</span>
+                <span class="text-orange-400">/&gt;</span>
+              </h2>
+            </div>
+            <div class="space-y-3 mb-8 fade-in-up" data-reveal-delay="300">
+              <div class="flex items-center text-orange-100">
+                <div
+                  class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center mr-3"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-4 h-4"
+                  >
+                    <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    <rect width="20" height="14" x="2" y="6" rx="2"></rect>
+                  </svg>
+                </div>
+                <p class="text-sm md:text-base" data-lang="heroEducation">
+                  Estudante de Análise e Desenvolvimento de Sistemas na UNICID
+                </p>
+              </div>
+              <div class="flex items-center text-orange-100">
+                <div
+                  class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center mr-3"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-4 h-4"
+                  >
+                    <path d="m9 12 2 2 4-4"></path>
+                    <circle cx="12" cy="12" r="10"></circle>
+                  </svg>
+                </div>
+                <p class="text-sm md:text-base" data-lang="heroFocus">
+                  Foco em Programação e Inteligência Artificial
+                </p>
+              </div>
+              <div class="flex items-center text-orange-100">
+                <div
+                  class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-500/20 flex items-center justify-center mr-3"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="w-4 h-4"
+                  >
+                    <path
+                      d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"
+                    ></path>
+                    <circle cx="12" cy="8" r="6"></circle>
+                  </svg>
+                </div>
+                <p class="text-sm md:text-base" data-lang="heroCourses">
+                  Cursos complementares de desenvolvimento na Alura
+                </p>
+              </div>
+            </div>
+            <div
+              class="flex flex-col sm:flex-row gap-4 fade-in-up"
+              data-reveal-delay="400"
+            >
+              <a
+                href="https://github.com/Joaovictoreth1"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary"
+                ><span data-lang="heroBtnGithub">Meu GitHub</span></a
+              >
+              <a
+                href="https://www.linkedin.com/in/jo%C3%A3o-victor-68847733b"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-primary"
+                >LinkedIn</a
+              >
+              <a
+                id="emailButton"
+                href="mailto:joaovictor.business2005@gmail.com"
+                class="btn btn-primary"
+                >Email</a
+              >
+            </div>
+          </div>
+          <div
+            class="hidden md:block fade-in-up"
+            data-reveal-delay="500"
+            aria-hidden="true"
+          >
+            <div
+              class="terminal-window backdrop-blur-md rounded-lg shadow-xl overflow-hidden"
+            >
+              <div class="terminal-header flex items-center px-4 py-2 border-b">
+                <div class="flex space-x-2">
+                  <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div class="ml-4 text-xs font-mono text-opacity-70">
+                  jvbm_profile.js
+                </div>
+              </div>
+              <div
+                class="p-4 h-[420px] overflow-y-auto font-mono text-sm custom-scrollbar"
+              >
+                <!-- prettier-ignore -->
+                <pre><code class="terminal-code"><span class="token keyword">const</span> joaoVictor = {
+   <span class="token property" data-lang="profileNameKey">nome</span>: <span class="token string">"João Victor B. das Merces"</span>,
+   <span class="token property" data-lang="profileAgeKey">idade</span>: <span class="token number">19</span>,
+   <span class="token property">status</span>: <span class="token string">"<span data-lang="profileStatus">Estudante de ADS na UNICID</span>"</span>,
+   <span class="token property" data-lang="profileFocusKey">foco</span>: [<span class="token string">"<span data-lang="profileProgramming">Programação</span>"</span>, <span class="token string">"<span data-lang="profileAi">Inteligência Artificial</span>"</span>],
+   <span class="token property" data-lang="profileGoalKey">objetivo</span>: <span class="token string">"<span data-lang="profileGoal">Me dedicar em criar, programar e estudar</span>"</span>,
+   <span class="token property" data-lang="profileSkillsKey">habilidades</span>: [
+     <span class="token string">"JavaScript"</span>,
+     <span class="token string">"Python"</span>,
+     <span class="token string">"C#"</span>,
+     <span class="token string">"HTML"</span>,
+     <span class="token string">"Java"</span>
+   ],
+   <span class="token property" data-lang="profileContactKey">contato</span>: {
+     <span class="token property">email</span>: <span class="token string">"joaovictor.business2005@gmail.com"</span>,
+     <span class="token property">linkedin</span>: <span class="token string">"in/joão-victor-68847733b"</span>,
+     <span class="token property">github</span>: <span class="token string">"Joaovictoreth1"</span>
+   }
+};</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <section id="skills" class="section bg-primary">
-            <div class="container">
-                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center fade-in-up" data-lang="skillsTitle">Minhas Habilidades</h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-                    </div>
+      <section id="about" class="section bg-secondary">
+        <div class="container">
+          <h2
+            class="text-3xl md:text-4xl font-bold mb-8 text-center fade-in-up"
+            data-lang="aboutTitle"
+          >
+            Sobre Mim
+          </h2>
+          <div class="grid md:grid-cols-2 gap-10 items-center">
+            <div class="fade-in-up" data-reveal-delay="100">
+              <div class="relative">
+                <div
+                  class="absolute -inset-1 bg-gradient-to-r from-accent-primary to-accent-secondary rounded-full blur-md opacity-70"
+                ></div>
+                <div
+                  class="relative aspect-square max-w-md mx-auto rounded-full overflow-hidden border-4 border-bg-secondary shadow-xl"
+                >
+                  <img
+                    src="./assets/images/avatar.webp"
+                    alt="Foto de perfil de João Victor"
+                    data-alt="avatarAlt"
+                    width="460"
+                    height="460"
+                    loading="lazy"
+                    decoding="async"
+                    class="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
             </div>
-        </section>
+            <div class="space-y-6 fade-in-up" data-reveal-delay="200">
+              <div class="tag" data-lang="aboutTag">
+                Desenvolvedor Iniciante
+              </div>
+              <h3 class="text-2xl font-bold" data-lang="aboutHeadline">
+                Transformando ideias em experiências digitais.
+              </h3>
+              <div class="space-y-4 text-text-secondary">
+                <p class="text-lg" data-lang="aboutP1">
+                  Olá! Sou um desenvolvedor apaixonado por tecnologia. Como
+                  iniciante na área, estou focado em absorver conhecimento e
+                  aplicá-lo em projetos práticos. Minha jornada é impulsionada
+                  pela curiosidade e pelo desejo de construir soluções elegantes
+                  e funcionais.
+                </p>
+                <div>
+                  <p data-lang="aboutP2">
+                    Estou cursando Análise e Desenvolvimento de Sistemas na
+                    UNICID e, paralelamente, aprimorando minhas habilidades com
+                    os cursos da:
+                  </p>
+                  <a
+                    href="https://www.alura.com.br/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-block mt-3"
+                  >
+                    <img
+                      src="./assets/images/alura.svg"
+                      alt="Alura"
+                      width="75"
+                      height="35"
+                      loading="lazy"
+                      class="h-8 w-auto"
+                    />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <footer class="py-10 px-4 md:px-8 bg-secondary border-t" style="border-color: var(--border-color);">
-            <div class="max-w-6xl mx-auto">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="mb-6 md:mb-0 text-center md:text-left">
-                        <h3 class="text-xl font-bold">João Victor Barros das Merces</h3>
-                        <p class="text-text-secondary mt-1">joaovictor.business2005@gmail.com</p>
-                    </div>
-                    <div class="flex gap-4">
-                        <a target="_blank" href="https://github.com/Joaovictoreth1" class="w-10 h-10 bg-tertiary rounded-full flex items-center justify-center text-text-secondary hover:text-accent-primary hover:bg-slate-600 transition-colors" aria-label="Github"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg></a>
-                        <a target="_blank" href="https://www.linkedin.com/in/joão-victor-68847733b" class="w-10 h-10 bg-tertiary rounded-full flex items-center justify-center text-text-secondary hover:text-accent-primary hover:bg-slate-600 transition-colors" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg></a>
-                    </div>
-                </div>
-                <div class="border-t border-border-color mt-8 pt-8 text-center text-text-secondary text-sm">
-                    <p data-lang="footerRights">© 2025 João Victor Barros das Merces. Todos os direitos reservados.</p>
-                </div>
-            </div>
-        </footer>
+      <section id="skills" class="section bg-primary">
+        <div class="container">
+          <h2
+            class="text-3xl md:text-4xl font-bold mb-12 text-center fade-in-up"
+            data-lang="skillsTitle"
+          >
+            Minhas Habilidades
+          </h2>
+          <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <li class="skill-card rounded-xl p-6 transition-all fade-in-up">
+              <img
+                src="./assets/images/javascript.png"
+                alt=""
+                width="64"
+                height="64"
+                loading="lazy"
+              />
+              <h3>JavaScript</h3>
+            </li>
+            <li
+              class="skill-card rounded-xl p-6 transition-all fade-in-up"
+              data-reveal-delay="100"
+            >
+              <img
+                src="./assets/images/python.svg"
+                alt=""
+                width="64"
+                height="64"
+                loading="lazy"
+              />
+              <h3>Python</h3>
+            </li>
+            <li
+              class="skill-card rounded-xl p-6 transition-all fade-in-up"
+              data-reveal-delay="200"
+            >
+              <img
+                src="./assets/images/csharp.png"
+                alt=""
+                width="64"
+                height="64"
+                loading="lazy"
+              />
+              <h3>C#</h3>
+            </li>
+            <li
+              class="skill-card rounded-xl p-6 transition-all fade-in-up"
+              data-reveal-delay="300"
+            >
+              <img
+                src="./assets/images/html.svg"
+                alt=""
+                width="64"
+                height="64"
+                loading="lazy"
+              />
+              <h3>HTML</h3>
+            </li>
+            <li
+              class="skill-card rounded-xl p-6 transition-all fade-in-up"
+              data-reveal-delay="400"
+            >
+              <img
+                src="./assets/images/java.svg"
+                alt=""
+                width="64"
+                height="64"
+                loading="lazy"
+              />
+              <h3>Java</h3>
+            </li>
+          </ul>
+        </div>
+      </section>
     </main>
 
-    <div id="emailModal" class="email-modal">
-        <p>Meu endereço de email:</p>
-        <div id="emailAddress" class="email-address">joaovictor.business2005@gmail.com</div>
-        <button id="copyButton" class="copy-button">Copiar</button>
-    </div>
+    <footer class="site-footer py-10 px-4 md:px-8 bg-secondary border-t">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0 text-center md:text-left">
+            <p class="text-xl font-bold">João Victor Barros das Merces</p>
+            <p class="text-text-secondary mt-1">
+              joaovictor.business2005@gmail.com
+            </p>
+          </div>
+          <div class="flex gap-4">
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://github.com/Joaovictoreth1"
+              class="w-10 h-10 bg-tertiary rounded-full flex items-center justify-center text-text-secondary hover:text-accent-primary hover:bg-slate-600 transition-colors"
+              aria-label="Github"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                ></path>
+                <path d="M9 18c-4.51 2-5-2-7-2"></path></svg
+            ></a>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://www.linkedin.com/in/jo%C3%A3o-victor-68847733b"
+              class="w-10 h-10 bg-tertiary rounded-full flex items-center justify-center text-text-secondary hover:text-accent-primary hover:bg-slate-600 transition-colors"
+              aria-label="LinkedIn"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                ></path>
+                <rect width="4" height="12" x="2" y="9"></rect>
+                <circle cx="4" cy="4" r="2"></circle></svg
+            ></a>
+          </div>
+        </div>
+        <div
+          class="border-t border-border-color mt-8 pt-8 text-center text-text-secondary text-sm"
+        >
+          <p data-lang="footerRights">
+            © 2025 João Victor Barros das Merces. Todos os direitos reservados.
+          </p>
+        </div>
+      </div>
+    </footer>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // --- DADOS DE TRADUÇÃO E HABILIDADES ---
-            const translations = {
-                pt: {
-                    heroWelcome: "Bem-vindo ao meu portfólio",
-                    heroTitle: "Desenvolvedor de Software",
-                    heroEducation: "Estudante de Análise e Desenvolvimento de Sistemas na UNICID",
-                    heroFocus: "Foco em Programação e Inteligência Artificial",
-                    heroCourses: "Cursos complementares de desenvolvimento na Alura",
-                    heroBtnGithub: "Meu GitHub",
-                    aboutTitle: "Sobre Mim",
-                    aboutTag: "Desenvolvedor Iniciante",
-                    aboutHeadline: "Transformando ideias em experiências digitais.",
-                    aboutP1: "Olá! Sou um desenvolvedor apaixonado por tecnologia. Como iniciante na área, estou focado em absorver conhecimento e aplicá-lo em projetos práticos. Minha jornada é impulsionada pela curiosidade e pelo desejo de construir soluções elegantes e funcionais.",
-                    aboutP2: "Estou cursando Análise e Desenvolvimento de Sistemas na UNICID e, paralelamente, aprimorando minhas habilidades com os cursos da:",
-                    skillsTitle: "Minhas Habilidades",
-                    footerRights: "© 2025 João Victor Barros das Merces. Todos os direitos reservados."
-                },
-                en: {
-                    heroWelcome: "Welcome to my portfolio",
-                    heroTitle: "Software Developer",
-                    heroEducation: "Student of Analysis and Systems Development at UNICID",
-                    heroFocus: "Focus on Programming and Artificial Intelligence",
-                    heroCourses: "Complementary development courses at Alura",
-                    heroBtnGithub: "My GitHub",
-                    aboutTitle: "About Me",
-                    aboutTag: "Junior Developer",
-                    aboutHeadline: "Transforming ideas into digital experiences.",
-                    aboutP1: "Hello! I'm a developer passionate about technology. As a beginner in the field, I'm focused on absorbing knowledge and applying it to practical projects. My journey is driven by curiosity and the desire to build elegant and functional solutions.",
-                    aboutP2: "I am studying Analysis and Systems Development at UNICID and, in parallel, improving my skills with courses from:",
-                    skillsTitle: "My Skills",
-                    footerRights: "© 2025 João Victor Barros das Merces. All rights reserved."
-                }
-            };
+    <dialog id="emailModal" class="email-modal" aria-labelledby="email-title">
+      <div class="email-panel">
+        <button
+          id="closeEmail"
+          type="button"
+          class="close-email"
+          aria-label="Fechar"
+          data-label="closeEmail"
+        >
+          ×
+        </button>
+        <p id="email-title" data-lang="emailTitle">Meu endereço de email:</p>
+        <a
+          id="emailAddress"
+          class="email-address"
+          href="mailto:joaovictor.business2005@gmail.com"
+          >joaovictor.business2005@gmail.com</a
+        >
+        <button
+          id="copyButton"
+          type="button"
+          class="copy-button"
+          data-lang="copyEmail"
+        >
+          Copiar
+        </button>
+        <p id="copyStatus" class="copy-status" role="status"></p>
+      </div>
+    </dialog>
 
-            const skills = [
-                { name: 'JavaScript', icon: 'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png' },
-                { name: 'Python', icon: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg' },
-                { name: 'C#', icon: 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png' },
-                { name: 'HTML', icon: 'https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg' },
-                { name: 'Java', icon: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Java_programming_language_logo.svg/1200px-Java_programming_language_logo.svg.png' }
-            ];
-
-            // --- INICIALIZAÇÃO ---
-            const themeToggle = document.getElementById('theme-toggle');
-            const langToggle = document.getElementById('lang-toggle');
-            const skillsContainer = document.querySelector('#skills .grid');
-            
-            let currentLang = localStorage.getItem('language') || 'pt';
-            let currentTheme = localStorage.getItem('theme') || 'dark';
-
-            function applyTheme(theme) {
-                document.documentElement.setAttribute('data-theme', theme);
-                currentTheme = theme;
-                localStorage.setItem('theme', theme);
-            }
-
-            function applyLanguage(lang) {
-                document.documentElement.lang = lang;
-                currentLang = lang;
-                langToggle.textContent = lang.toUpperCase();
-                localStorage.setItem('language', lang);
-                document.querySelectorAll('[data-lang]').forEach(el => {
-                    const key = el.getAttribute('data-lang');
-                    if (translations[lang][key]) {
-                        el.textContent = translations[lang][key];
-                    }
-                });
-            }
-
-            function populateSkills() {
-                skillsContainer.innerHTML = '';
-                skills.forEach((skill, index) => {
-                    const skillElement = document.createElement('div');
-                    skillElement.className = 'bg-secondary backdrop-blur-sm rounded-xl p-6 border border-border-color hover:border-accent-secondary transition-all cursor-pointer fade-in-up';
-                    skillElement.style.transitionDelay = `${index * 100}ms`;
-                    skillElement.innerHTML = `
-                        <div class="flex flex-col items-center text-center h-full">
-                            <img src="${skill.icon}" alt="${skill.name} Logo" class="h-16 mb-4">
-                            <h3 class="font-bold text-text-primary mb-1">${skill.name}</h3>
-                        </div>
-                    `;
-                    skillsContainer.appendChild(skillElement);
-                });
-            }
-
-            // Aplicar tema e idioma salvos
-            applyTheme(currentTheme);
-            applyLanguage(currentLang);
-            populateSkills();
-
-            // --- EVENT LISTENERS ---
-            themeToggle.addEventListener('click', () => {
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                applyTheme(newTheme);
-            });
-
-            langToggle.addEventListener('click', () => {
-                const newLang = currentLang === 'pt' ? 'en' : 'pt';
-                applyLanguage(newLang);
-            });
-
-            // Animação de entrada ao rolar
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
-
-            // Animação de "digitação" no terminal
-            const codeBlock = document.getElementById('code-block');
-            const codeLines = [
-                '<span class="token keyword">const</span> joaoVictor = {',
-                '   <span class="token property">nome</span>: <span class="token string">"João Victor B. das Merces"</span>,',
-                '   <span class="token property">idade</span>: <span class="token number">19</span>,',
-                '   <span class="token property">status</span>: <span class="token string">"Estudante de ADS na UNICID"</span>,',
-                '   <span class="token property">foco</span>: [<span class="token string">"Programação"</span>, <span class="token string">"Inteligência Artificial"</span>],',
-                '   <span class="token property">objetivo</span>: <span class="token string">"Me dedicar em criar, programar e estudar"</span>,',
-                '   <span class="token property">habilidades</span>: [',
-                '     <span class="token string">"JavaScript"</span>,',
-                '     <span class="token string">"Python"</span>,',
-                '     <span class="token string">"C#"</span>,',
-                '     <span class="token string">"HTML"</span>,',
-                '     <span class="token string">"Java"</span>',
-                '   ],',
-                '   <span class="token property">contato</span>: {',
-                '     <span class="token property">email</span>: <span class="token string">"joaovictor.business2005@gmail.com"</span>,',
-                '     <span class="token property">linkedin</span>: <span class="token string">"in/joão-victor-68847733b"</span>,',
-                '     <span class="token property">github</span>: <span class="token string">"Joaovictoreth1"</span>',
-                '   }',
-                '};'
-            ];
-
-            let lineIndex = 0;
-            let charIndex = 0;
-            let currentLineHTML = '';
-
-            function typeCode() {
-                if (lineIndex >= codeLines.length) {
-                    codeBlock.innerHTML = codeLines.join('<br>');
-                    return;
-                }
-                const line = codeLines[lineIndex];
-                if (charIndex < line.length) {
-                    currentLineHTML += line[charIndex];
-                    codeBlock.innerHTML = codeLines.slice(0, lineIndex).join('<br>') + (lineIndex > 0 ? '<br>' : '') + currentLineHTML + '<span class="animate-pulse" style="color: var(--terminal-text-accent);">|</span>';
-                    charIndex++;
-                    setTimeout(typeCode, 15);
-                } else {
-                    currentLineHTML = '';
-                    charIndex = 0;
-                    lineIndex++;
-                    setTimeout(typeCode, 50);
-                }
-            }
-            
-            setTimeout(typeCode, 1500);
-
-            // Lógica do Modal de Email
-            const emailButton = document.getElementById('emailButton');
-            const emailModal = document.getElementById('emailModal');
-            const copyButton = document.getElementById('copyButton');
-            const emailAddress = document.getElementById('emailAddress').innerText;
-
-            emailButton.addEventListener('click', () => {
-                emailModal.classList.add('visible');
-            });
-
-            document.addEventListener('click', function(event) {
-                if (!emailModal.contains(event.target) && event.target !== emailButton) {
-                    emailModal.classList.remove('visible');
-                }
-            });
-
-            copyButton.addEventListener('click', () => {
-                const tempInput = document.createElement('textarea');
-                tempInput.value = emailAddress;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-                copyButton.innerText = 'Copiado!';
-                setTimeout(() => {
-                    copyButton.innerText = 'Copiar';
-                }, 2000);
-            });
-        });
-    </script>
-
-</body>
+    <script type="module" src="./src/main.js"></script>
+  </body>
 </html>
