@@ -1,0 +1,38 @@
+{
+  "name": "joaovictoreth1-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "node scripts/build-css.js",
+    "build:check": "git ls-files --error-unmatch assets/site.css && npm run build && git diff --exit-code -- assets/site.css",
+    "lint": "eslint . --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --coverage",
+    "test:browser": "playwright test",
+    "test:links": "node scripts/check-links.js",
+    "test:lighthouse": "node scripts/lighthouse.js",
+    "audit": "npm audit --audit-level=low",
+    "serve": "python3 -m http.server 8000 --bind 127.0.0.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.10.2",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.1",
+    "@types/node": "^24.0.0",
+    "@vitest/coverage-v8": "5.1.2",
+    "eslint": "^10.15.0",
+    "globals": "^17.0.0",
+    "lighthouse": "^13.6.0",
+    "parse5": "^8.0.0",
+    "prettier": "^3.6.2",
+    "tailwindcss": "3.4.17",
+    "typescript": "^5.9.0",
+    "vitest": "5.1.2"
+  }
+}
